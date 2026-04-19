@@ -43,16 +43,6 @@ CREATE TABLE dynamics (
         REFERENCES indicators(indicator_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Таблица Пользователи (для приложения)
-CREATE TABLE users (
-    user_id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(100) NOT NULL,
-    role ENUM('Администратор', 'Пользователь') NOT NULL DEFAULT 'Пользователь',
-    is_blocked BOOLEAN NOT NULL DEFAULT FALSE,
-    login_attempts INT NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 -- ============================================================================
 -- 3. Заполнение данными (пункт 9)
 -- ============================================================================
@@ -83,10 +73,21 @@ INSERT INTO dynamics (enterprise_id, indicator_id, report_date, value) VALUES
 (3, 5, '2023-01-01', 120.00),
 (3, 5, '2023-04-01', 135.00);
 
--- Пользователи для приложения
-INSERT INTO users (username, password, role) VALUES
-('admin', 'admin123', 'Администратор'),
-('user', 'user123', 'Пользователь');
+-- Пользователи для приложения (сопоставление с кодом C#)
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password_hash VARCHAR(100) NOT NULL,
+    role VARCHAR(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Логины и пароли для входа в приложение:
+-- admin / admin
+-- analyst / analyst
+INSERT INTO users (username, password_hash, role) VALUES
+('admin', 'admin', 'Administrator'),
+('analyst', 'analyst', 'Analyst');
 
 -- ============================================================================
 -- 4. Создание пользовательской функции (пункт 14)

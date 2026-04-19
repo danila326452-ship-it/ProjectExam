@@ -236,43 +236,38 @@ namespace ProjectExam
 
             try
             {
-                var dt = DbHelper.Query("SELECT роль, заблокирован, попытки_входа FROM Пользователи WHERE логин=@l AND пароль=@p",
-                    new MySqlParameter("@l", tbLogin.Text), new MySqlParameter("@p", tbPass.Text));
+                // Используем таблицу 'users' с английскими полями, как в скрипте init_database.sql
+                var dt = DbHelper.Query("SELECT role, username FROM users WHERE username=@u AND password_hash=@p",
+                    new MySqlParameter("@u", tbLogin.Text), new MySqlParameter("@p", tbPass.Text));
 
                 if (dt.Rows.Count == 0)
                 {
-                    failCount++; puzzleFails++;
-                    DbHelper.Execute("UPDATE Пользователи SET попытки_входа=@c WHERE логин=@l", new MySqlParameter("@c", failCount), new MySqlParameter("@l", tbLogin.Text));
-
-                    if (failCount >= 3 || puzzleFails >= 3)
-                    {
-                        DbHelper.Execute("UPDATE Пользователи SET заблокирован=TRUE WHERE логин=@l", new MySqlParameter("@l", tbLogin.Text));
-                        MessageBox.Show("Вы заблокированы. Обратитесь к администратору", "Блокировка", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                        Application.Exit();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Вы ввели неверный логин или пароль. Пожалуйста проверьте ещё раз введенные данные", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        ShuffleCaptcha();
-                    }
+                    MessageBox.Show("Неверный логин или пароль.", "Ошибка входа", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ShuffleCaptcha();
                 }
                 else
                 {
-                    if (dt.Rows[0]["заблокирован"].ToString() == "1")
-                    {
-                        MessageBox.Show("Вы заблокированы. Обратитесь к администратору", "Блокировка", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                        Application.Exit();
-                        return;
-                    }
                     MessageBox.Show("Вы успешно авторизовались", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    new MainForm(dt.Rows[0]["роль"].ToString()).Show(); this.Hide();
+                    new MainForm(dt.Rows[0]["role"].ToString()).Show(); 
+                    this.Hide();
                 }
             }
             catch (MySqlException ex) when (ex.Number == 1049)
             {
-                MessageBox.Show("База данных 'HoldingAnalytics' не найдена.\n1. Откройте MySQL Workbench.\n2. Выполните скрипт инициализации.\n3. Перезапустите программу.", "Ошибка подключения", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("База данных 'holding_db' не найдена.\n1. Откройте MySQL Workbench.\n2. Выполните скрипт init_database.sql.\n3. Перезапустите программу.", "Ошибка подключения", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            catch (Exception ex) { MessageBox.Show("Ошибка: " + ex.Message, "Системная ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            catch (MySqlException ex)
+            {
+                string msg = "Ошибка подключения к БД:\n" + ex.Message;
+                if (ex.InnerException != null) msg += "\n\nПодробности: " + ex.InnerException.Message;
+                MessageBox.Show(msg, "Ошибка MySQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex) 
+            { 
+                string msg = "Произошла непредвиденная ошибка:\n" + ex.Message;
+                if (ex.InnerException != null) msg += "\n\nПодробности: " + ex.InnerException.Message;
+                MessageBox.Show(msg, "Системная ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error); 
+            }
         }
     }
 }

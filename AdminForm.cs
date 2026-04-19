@@ -45,18 +45,18 @@ namespace ProjectExam
             this.tbLogin.Location = new System.Drawing.Point(12, 230);
             this.tbLogin.Size = new System.Drawing.Size(180, 20);
             this.tbLogin.TabIndex = 1;
-            this.tbLogin.Enter += (s, e) => { if (tbLogin.Text == "Логин") tbLogin.Text = ""; };
-            this.tbLogin.Leave += (s, e) => { if (string.IsNullOrWhiteSpace(tbLogin.Text)) tbLogin.Text = "Логин"; };
             this.tbLogin.Text = "Логин";
+            this.tbLogin.Enter += TbLogin_Enter;
+            this.tbLogin.Leave += TbLogin_Leave;
 
             // tbPass
             this.tbPass.Location = new System.Drawing.Point(200, 230);
             this.tbPass.PasswordChar = '*';
             this.tbPass.Size = new System.Drawing.Size(180, 20);
             this.tbPass.TabIndex = 2;
-            this.tbPass.Enter += (s, e) => { if (tbPass.Text == "Пароль") tbPass.Text = ""; };
-            this.tbPass.Leave += (s, e) => { if (string.IsNullOrWhiteSpace(tbPass.Text)) tbPass.Text = "Пароль"; };
             this.tbPass.Text = "Пароль";
+            this.tbPass.Enter += TbPass_Enter;
+            this.tbPass.Leave += TbPass_Leave;
 
             // cbRole
             this.cbRole.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -102,6 +102,27 @@ namespace ProjectExam
             
             this.ResumeLayout(false);
             this.PerformLayout();
+        }
+
+        // Обработчики событий для подсказок в полях ввода
+        private void TbLogin_Enter(object sender, EventArgs e)
+        {
+            if (tbLogin.Text == "Логин") tbLogin.Text = "";
+        }
+
+        private void TbLogin_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(tbLogin.Text)) tbLogin.Text = "Логин";
+        }
+
+        private void TbPass_Enter(object sender, EventArgs e)
+        {
+            if (tbPass.Text == "Пароль") tbPass.Text = "";
+        }
+
+        private void TbPass_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(tbPass.Text)) tbPass.Text = "Пароль";
         }
 
         private void LoadUsers() => dataGridView1.DataSource = DbHelper.Query("SELECT id, логин, роль, заблокирован FROM Пользователи");

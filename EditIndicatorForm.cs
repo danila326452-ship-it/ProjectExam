@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace ProjectExam
 {
-    public partial class EditIndicatorForm : Form
+    public class EditIndicatorForm : Form
     {
         private int id;
         public EditIndicatorForm(int id = 0)

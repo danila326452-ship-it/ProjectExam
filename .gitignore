@@ -1,17 +1,20 @@
 ```
-# Compiled files
+# Build artifacts
 *.obj
 *.exe
 *.dll
 *.pdb
-*.userprefs
-*.cache
-*.log
+*.user
+*.userosscache
+*.sln.docstates
 
 # Dependencies
 packages/
 bin/
 obj/
+
+# Logs
+*.log
 
 # Environment
 .env
@@ -20,6 +23,12 @@ obj/
 
 # Editors
 .vs/
-.vshost.exe
-.user
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
 ```

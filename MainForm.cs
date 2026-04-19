@@ -173,8 +173,14 @@ namespace ProjectExam
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
                 AllowUserToAddRows = false,
                 AllowUserToDeleteRows = false,
-                ReadOnly = true
+                ReadOnly = true,
+                AutoGenerateColumns = false
             };
+
+            dgvIndicators.Columns.Add(new DataGridViewTextBoxColumn { Name = "indicator_id", DataPropertyName = "indicator_id", HeaderText = "Код", Visible = false });
+            dgvIndicators.Columns.Add(new DataGridViewTextBoxColumn { Name = "name", DataPropertyName = "name", HeaderText = "Название" });
+            dgvIndicators.Columns.Add(new DataGridViewTextBoxColumn { Name = "importance", DataPropertyName = "importance", HeaderText = "Важность" });
+            dgvIndicators.Columns.Add(new DataGridViewTextBoxColumn { Name = "unit", DataPropertyName = "unit", HeaderText = "Ед.изм." });
 
             btnAddInd = new Button { Text = "Добавить", Location = new Point(770, 10), Size = new Size(180, 35) };
             btnAddInd.Click += BtnAddInd_Click;
@@ -205,8 +211,7 @@ namespace ProjectExam
         {
             try
             {
-                var dt = DbHelper.Query(@"SELECT indicator_id AS 'Код', name AS 'Название', 
-                    importance AS 'Важность', unit AS 'Ед.изм.' FROM indicators ORDER BY name");
+                var dt = DbHelper.Query(@"SELECT indicator_id, name, importance, unit FROM indicators ORDER BY name");
                 dgvIndicators.DataSource = dt;
             }
             catch (Exception ex) { MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error); }
@@ -241,8 +246,15 @@ namespace ProjectExam
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
                 AllowUserToAddRows = false,
                 AllowUserToDeleteRows = false,
-                ReadOnly = true
+                ReadOnly = true,
+                AutoGenerateColumns = false
             };
+
+            dgvDynamics.Columns.Add(new DataGridViewTextBoxColumn { Name = "record_id", DataPropertyName = "record_id", HeaderText = "Код", Visible = false });
+            dgvDynamics.Columns.Add(new DataGridViewTextBoxColumn { Name = "enterprise_name", DataPropertyName = "Предприятие", HeaderText = "Предприятие" });
+            dgvDynamics.Columns.Add(new DataGridViewTextBoxColumn { Name = "indicator_name", DataPropertyName = "Показатель", HeaderText = "Показатель" });
+            dgvDynamics.Columns.Add(new DataGridViewTextBoxColumn { Name = "report_date", DataPropertyName = "Дата отчета", HeaderText = "Дата отчета" });
+            dgvDynamics.Columns.Add(new DataGridViewTextBoxColumn { Name = "value", DataPropertyName = "Значение", HeaderText = "Значение" });
 
             btnAddDyn = new Button { Text = "Добавить", Location = new Point(770, 10), Size = new Size(180, 35) };
             btnAddDyn.Click += BtnAddDyn_Click;
@@ -273,7 +285,7 @@ namespace ProjectExam
         {
             try
             {
-                var dt = DbHelper.Query(@"SELECT d.record_id AS 'Код', e.name AS 'Предприятие', i.name AS 'Показатель', 
+                var dt = DbHelper.Query(@"SELECT d.record_id, e.name AS 'Предприятие', i.name AS 'Показатель', 
                     d.report_date AS 'Дата отчета', d.value AS 'Значение'
                     FROM dynamics d
                     JOIN enterprises e ON d.enterprise_id = e.enterprise_id
@@ -410,15 +422,35 @@ namespace ProjectExam
         {
             if (dt.Rows.Count == 0) return "Нет данных";
             
-            string result = "";
-            foreach (DataColumn col in dt.Columns)
-                result += col.ColumnName.PadRight(25);
-            result += "\n" + new string('-', dt.Columns.Count * 25) + "\n";
+            // Вычисляем максимальную ширину для каждого столбца
+            int[] colWidths = new int[dt.Columns.Count];
+            for (int i = 0; i < dt.Columns.Count; i++)
+            {
+                colWidths[i] = dt.Columns[i].ColumnName.Length;
+                foreach (DataRow row in dt.Rows)
+                {
+                    int len = row[i].ToString().Length;
+                    if (len > colWidths[i]) colWidths[i] = len;
+                }
+                colWidths[i] += 2; // Добавляем отступ
+            }
             
+            // Формируем заголовок
+            string result = "";
+            for (int i = 0; i < dt.Columns.Count; i++)
+                result += dt.Columns[i].ColumnName.PadRight(colWidths[i]);
+            result += "\n";
+            
+            // Формируем разделитель
+            for (int i = 0; i < dt.Columns.Count; i++)
+                result += new string('-', colWidths[i]);
+            result += "\n";
+            
+            // Формируем строки данных
             foreach (DataRow row in dt.Rows)
             {
-                foreach (var item in row.ItemArray)
-                    result += item.ToString().PadRight(25);
+                for (int i = 0; i < dt.Columns.Count; i++)
+                    result += row[i].ToString().PadRight(colWidths[i]);
                 result += "\n";
             }
             return result;

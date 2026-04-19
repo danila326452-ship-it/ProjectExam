@@ -81,7 +81,7 @@ namespace ProjectExam
             this.Controls.Add(mainTabControl);
             
             // Добавляем кнопку Назад поверх всех элементов
-            btnBack.Parent = mainTabControl;
+            btnBack.Parent = this;
             btnBack.Location = new Point(880, 10);
             btnBack.Size = new Size(100, 30);
             btnBack.BringToFront();

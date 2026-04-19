@@ -313,7 +313,7 @@ namespace ProjectExam
             }
         }
 
-        private TextBox txtQueryResult;
+        private DataGridView dgvQueryResult;
         private Button btnQueryA, btnQueryB, btnQueryC, btnQueryD, btnQueryE, btnQueryF, btnQueryG, btnQueryH;
 
         private void SetupQueriesTab()
@@ -355,17 +355,24 @@ namespace ProjectExam
 
             pnlButtons.Controls.AddRange(new Control[] { btnQueryA, btnQueryB, btnQueryC, btnQueryD, btnQueryE, btnQueryF, btnQueryG, btnQueryH });
 
-            txtQueryResult = new TextBox
+            dgvQueryResult = new DataGridView
             {
                 Location = new Point(10, 170),
                 Size = new Size(940, 350),
-                Multiline = true,
-                ScrollBars = ScrollBars.Vertical,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                AllowUserToAddRows = false,
+                AllowUserToDeleteRows = false,
                 ReadOnly = true,
-                Font = new Font("Consolas", 9F)
+                AutoGenerateColumns = true,
+                ColumnHeadersDefaultCellStyle = { WrapMode = DataGridViewTriState.True },
+                RowHeadersVisible = false,
+                AllowUserToResizeRows = false,
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                MultiSelect = false
             };
+            dgvQueryResult.ColumnHeadersHeight = 60;
 
-            tabQueries.Controls.AddRange(new Control[] { lblTitle, pnlButtons, txtQueryResult });
+            tabQueries.Controls.AddRange(new Control[] { lblTitle, pnlButtons, dgvQueryResult });
         }
 
         private enum QueryType { A, B, C, D, E, F, G, H }
@@ -413,47 +420,9 @@ namespace ProjectExam
                 }
                 
                 var dt = DbHelper.Query(sql);
-                txtQueryResult.Text = DataTableToString(dt);
+                dgvQueryResult.DataSource = dt;
             }
-            catch (Exception ex) { txtQueryResult.Text = "Ошибка: " + ex.Message; }
-        }
-
-        private string DataTableToString(DataTable dt)
-        {
-            if (dt.Rows.Count == 0) return "Нет данных";
-            
-            // Вычисляем максимальную ширину для каждого столбца
-            int[] colWidths = new int[dt.Columns.Count];
-            for (int i = 0; i < dt.Columns.Count; i++)
-            {
-                colWidths[i] = dt.Columns[i].ColumnName.Length;
-                foreach (DataRow row in dt.Rows)
-                {
-                    int len = row[i].ToString().Length;
-                    if (len > colWidths[i]) colWidths[i] = len;
-                }
-                colWidths[i] += 2; // Добавляем отступ
-            }
-            
-            // Формируем заголовок
-            string result = "";
-            for (int i = 0; i < dt.Columns.Count; i++)
-                result += dt.Columns[i].ColumnName.PadRight(colWidths[i]);
-            result += "\n";
-            
-            // Формируем разделитель
-            for (int i = 0; i < dt.Columns.Count; i++)
-                result += new string('-', colWidths[i]);
-            result += "\n";
-            
-            // Формируем строки данных
-            foreach (DataRow row in dt.Rows)
-            {
-                for (int i = 0; i < dt.Columns.Count; i++)
-                    result += row[i].ToString().PadRight(colWidths[i]);
-                result += "\n";
-            }
-            return result;
+            catch (Exception ex) { MessageBox.Show("Ошибка: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
         private TextBox txtFuncEnterprise, txtFuncIndicator, txtFuncResult;

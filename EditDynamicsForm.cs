@@ -126,17 +126,7 @@ namespace ProjectExam
             this.SuspendLayout();
 
             int y = 20;
-            void AddField(Label l, Control c, string txt, ref int yPos)
-            {
-                l.Location = new System.Drawing.Point(20, yPos);
-                l.Text = txt;
-                l.AutoSize = true;
-                this.Controls.Add(l);
-                c.Location = new System.Drawing.Point(180, yPos);
-                this.Controls.Add(c);
-                yPos += 40;
-            }
-
+            
             cbEnterprise.Size = new System.Drawing.Size(250, 23);
             cbIndicator.Size = new System.Drawing.Size(250, 23);
             dtpReportDate.Size = new System.Drawing.Size(250, 23);
@@ -164,6 +154,18 @@ namespace ProjectExam
             this.Text = "Динамика показателей";
             this.ResumeLayout(false);
             this.PerformLayout();
+        }
+
+        // Вспомогательный метод вынесен за пределы InitializeComponent
+        private void AddField(Label l, Control c, string txt, ref int yPos)
+        {
+            l.Location = new System.Drawing.Point(20, yPos);
+            l.Text = txt;
+            l.AutoSize = true;
+            this.Controls.Add(l);
+            c.Location = new System.Drawing.Point(180, yPos);
+            this.Controls.Add(c);
+            yPos += 40;
         }
 
         private ComboBox cbEnterprise, cbIndicator;

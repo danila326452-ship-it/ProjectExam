@@ -82,18 +82,7 @@ namespace ProjectExam
             this.SuspendLayout();
 
             int y = 20;
-            void AddField(Label l, TextBox t, string txt, ref int yPos)
-            {
-                l.Location = new System.Drawing.Point(20, yPos);
-                l.Text = txt;
-                l.AutoSize = true;
-                this.Controls.Add(l);
-                t.Location = new System.Drawing.Point(180, yPos);
-                t.Size = new System.Drawing.Size(250, 23);
-                this.Controls.Add(t);
-                yPos += 40;
-            }
-
+            
             AddField(lblName, tbName, "Название:", ref y);
             AddField(lblImportance, tbImportance, "Важность:", ref y);
             AddField(lblUnit, tbUnit, "Ед. измерения:", ref y);
@@ -114,6 +103,19 @@ namespace ProjectExam
             this.Text = "Показатель";
             this.ResumeLayout(false);
             this.PerformLayout();
+        }
+
+        // Вспомогательный метод вынесен за пределы InitializeComponent
+        private void AddField(Label l, TextBox t, string txt, ref int yPos)
+        {
+            l.Location = new System.Drawing.Point(20, yPos);
+            l.Text = txt;
+            l.AutoSize = true;
+            this.Controls.Add(l);
+            t.Location = new System.Drawing.Point(180, yPos);
+            t.Size = new System.Drawing.Size(250, 23);
+            this.Controls.Add(t);
+            yPos += 40;
         }
 
         private TextBox tbName, tbImportance, tbUnit;

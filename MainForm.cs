@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace ProjectExam
 {
-    public partial class MainForm : Form
+    public class MainForm : Form
     {
         private string role;
         private TabControl mainTabControl;
@@ -490,53 +490,35 @@ namespace ProjectExam
             catch (Exception ex) { MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
+        private Button btnBack, btnAdmin;
+        
         private void InitializeComponent()
         {
-            btnBack = new System.Windows.Forms.Button();
-            btnAdmin = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.btnBack = new Button();
+            this.btnAdmin = new Button();
             this.SuspendLayout();
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(0, 0);
-            this.dataGridView1.Visible = false;
-            // 
-            // btnBack
-            // 
-            this.btnBack.Location = new System.Drawing.Point(880, 10);
+            
+            this.btnBack.Location = new Point(880, 10);
             this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(100, 30);
+            this.btnBack.Size = new Size(100, 30);
             this.btnBack.TabIndex = 0;
             this.btnBack.Text = "Назад";
             this.btnBack.UseVisualStyleBackColor = true;
-            // 
-            // btnAdmin
-            // 
-            this.btnAdmin.Location = new System.Drawing.Point(880, 50);
+            
+            this.btnAdmin.Location = new Point(880, 50);
             this.btnAdmin.Name = "btnAdmin";
-            this.btnAdmin.Size = new System.Drawing.Size(100, 30);
+            this.btnAdmin.Size = new Size(100, 30);
             this.btnAdmin.TabIndex = 1;
             this.btnAdmin.Text = "Админка";
             this.btnAdmin.UseVisualStyleBackColor = true;
-            // 
-            // MainForm
-            // 
-            this.ClientSize = new System.Drawing.Size(1000, 700);
+            
+            this.ClientSize = new Size(1000, 700);
             this.Controls.Add(this.btnAdmin);
             this.Controls.Add(this.btnBack);
-            this.Controls.Add(this.dataGridView1);
             this.Name = "MainForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = FormStartPosition.CenterScreen;
             this.Text = "Аналитика холдинга";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
         }
-        
-        // Оставляем старые кнопки для совместимости
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button btnAdd, btnEdit, btnFunc, btnHist;
     }
 }

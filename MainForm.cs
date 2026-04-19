@@ -366,7 +366,8 @@ namespace ProjectExam
             return result;
         }
 
-        private TextBox txtFuncEnterprise, txtFuncIndicator, txtFuncDateStart, txtFuncDateEnd, txtFuncResult;
+        private TextBox txtFuncEnterprise, txtFuncIndicator, txtFuncResult;
+        private DateTimePicker txtFuncDateStart, txtFuncDateEnd;
         private Button btnRunFunction;
 
         private void SetupFunctionTab()

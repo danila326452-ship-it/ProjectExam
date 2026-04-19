@@ -23,10 +23,24 @@ namespace ProjectExam
             
             SetupTabControl();
             
-            btnBack.Click += (s, e) => { new AuthForm().Show(); this.Close(); };
-            btnAdmin.Click += (s, e) => { if (role == "Администратор") new AdminForm().ShowDialog(); else MessageBox.Show("Доступ запрещен", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning); };
+            btnBack.Click += BtnBack_Click;
+            btnAdmin.Click += BtnAdmin_Click;
             
             LoadEnterprisesData();
+        }
+
+        private void BtnBack_Click(object sender, EventArgs e)
+        {
+            new AuthForm().Show();
+            this.Close();
+        }
+
+        private void BtnAdmin_Click(object sender, EventArgs e)
+        {
+            if (role == "Администратор")
+                new AdminForm().ShowDialog();
+            else
+                MessageBox.Show("Доступ запрещен", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         private void SetupTabControl()
@@ -89,15 +103,28 @@ namespace ProjectExam
             };
 
             btnAddEnt = new Button { Text = "Добавить", Location = new Point(770, 10), Size = new Size(180, 35) };
-            btnAddEnt.Click += (s, e) => { new EditEnterpriseForm().ShowDialog(); LoadEnterprisesData(); };
+            btnAddEnt.Click += BtnAddEnt_Click;
 
             btnEditEnt = new Button { Text = "Изменить", Location = new Point(770, 50), Size = new Size(180, 35) };
-            btnEditEnt.Click += (s, e) => { if (dgvEnterprises.CurrentRow == null) return; new EditEnterpriseForm((int)dgvEnterprises.CurrentRow.Cells["enterprise_id"].Value).ShowDialog(); LoadEnterprisesData(); };
+            btnEditEnt.Click += BtnEditEnt_Click;
 
             btnDeleteEnt = new Button { Text = "Удалить", Location = new Point(770, 90), Size = new Size(180, 35) };
             btnDeleteEnt.Click += (s, e) => DeleteEnterprise();
 
             tabEnterprises.Controls.AddRange(new Control[] { dgvEnterprises, btnAddEnt, btnEditEnt, btnDeleteEnt });
+        }
+
+        private void BtnAddEnt_Click(object sender, EventArgs e)
+        {
+            new EditEnterpriseForm().ShowDialog();
+            LoadEnterprisesData();
+        }
+
+        private void BtnEditEnt_Click(object sender, EventArgs e)
+        {
+            if (dgvEnterprises.CurrentRow == null) return;
+            new EditEnterpriseForm((int)dgvEnterprises.CurrentRow.Cells["enterprise_id"].Value).ShowDialog();
+            LoadEnterprisesData();
         }
 
         private void LoadEnterprisesData()
@@ -145,15 +172,28 @@ namespace ProjectExam
             };
 
             btnAddInd = new Button { Text = "Добавить", Location = new Point(770, 10), Size = new Size(180, 35) };
-            btnAddInd.Click += (s, e) => { new EditIndicatorForm().ShowDialog(); LoadIndicatorsData(); };
+            btnAddInd.Click += BtnAddInd_Click;
 
             btnEditInd = new Button { Text = "Изменить", Location = new Point(770, 50), Size = new Size(180, 35) };
-            btnEditInd.Click += (s, e) => { if (dgvIndicators.CurrentRow == null) return; new EditIndicatorForm((int)dgvIndicators.CurrentRow.Cells["indicator_id"].Value).ShowDialog(); LoadIndicatorsData(); };
+            btnEditInd.Click += BtnEditInd_Click;
 
             btnDeleteInd = new Button { Text = "Удалить", Location = new Point(770, 90), Size = new Size(180, 35) };
             btnDeleteInd.Click += (s, e) => DeleteIndicator();
 
             tabIndicators.Controls.AddRange(new Control[] { dgvIndicators, btnAddInd, btnEditInd, btnDeleteInd });
+        }
+
+        private void BtnAddInd_Click(object sender, EventArgs e)
+        {
+            new EditIndicatorForm().ShowDialog();
+            LoadIndicatorsData();
+        }
+
+        private void BtnEditInd_Click(object sender, EventArgs e)
+        {
+            if (dgvIndicators.CurrentRow == null) return;
+            new EditIndicatorForm((int)dgvIndicators.CurrentRow.Cells["indicator_id"].Value).ShowDialog();
+            LoadIndicatorsData();
         }
 
         private void LoadIndicatorsData()
@@ -200,15 +240,28 @@ namespace ProjectExam
             };
 
             btnAddDyn = new Button { Text = "Добавить", Location = new Point(770, 10), Size = new Size(180, 35) };
-            btnAddDyn.Click += (s, e) => { new EditDynamicsForm().ShowDialog(); LoadDynamicsData(); };
+            btnAddDyn.Click += BtnAddDyn_Click;
 
             btnEditDyn = new Button { Text = "Изменить", Location = new Point(770, 50), Size = new Size(180, 35) };
-            btnEditDyn.Click += (s, e) => { if (dgvDynamics.CurrentRow == null) return; new EditDynamicsForm((int)dgvDynamics.CurrentRow.Cells["record_id"].Value).ShowDialog(); LoadDynamicsData(); };
+            btnEditDyn.Click += BtnEditDyn_Click;
 
             btnDeleteDyn = new Button { Text = "Удалить", Location = new Point(770, 90), Size = new Size(180, 35) };
             btnDeleteDyn.Click += (s, e) => DeleteDynamics();
 
             tabDynamics.Controls.AddRange(new Control[] { dgvDynamics, btnAddDyn, btnEditDyn, btnDeleteDyn });
+        }
+
+        private void BtnAddDyn_Click(object sender, EventArgs e)
+        {
+            new EditDynamicsForm().ShowDialog();
+            LoadDynamicsData();
+        }
+
+        private void BtnEditDyn_Click(object sender, EventArgs e)
+        {
+            if (dgvDynamics.CurrentRow == null) return;
+            new EditDynamicsForm((int)dgvDynamics.CurrentRow.Cells["record_id"].Value).ShowDialog();
+            LoadDynamicsData();
         }
 
         private void LoadDynamicsData()

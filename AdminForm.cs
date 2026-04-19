@@ -43,16 +43,20 @@ namespace ProjectExam
 
             // tbLogin
             this.tbLogin.Location = new System.Drawing.Point(12, 230);
-            this.tbLogin.PlaceholderText = "Логин";
             this.tbLogin.Size = new System.Drawing.Size(180, 20);
             this.tbLogin.TabIndex = 1;
+            this.tbLogin.Enter += (s, e) => { if (tbLogin.Text == "Логин") tbLogin.Text = ""; };
+            this.tbLogin.Leave += (s, e) => { if (string.IsNullOrWhiteSpace(tbLogin.Text)) tbLogin.Text = "Логин"; };
+            this.tbLogin.Text = "Логин";
 
             // tbPass
             this.tbPass.Location = new System.Drawing.Point(200, 230);
             this.tbPass.PasswordChar = '*';
-            this.tbPass.PlaceholderText = "Пароль";
             this.tbPass.Size = new System.Drawing.Size(180, 20);
             this.tbPass.TabIndex = 2;
+            this.tbPass.Enter += (s, e) => { if (tbPass.Text == "Пароль") tbPass.Text = ""; };
+            this.tbPass.Leave += (s, e) => { if (string.IsNullOrWhiteSpace(tbPass.Text)) tbPass.Text = "Пароль"; };
+            this.tbPass.Text = "Пароль";
 
             // cbRole
             this.cbRole.DropDownStyle = ComboBoxStyle.DropDownList;

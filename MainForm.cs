@@ -99,8 +99,15 @@ namespace ProjectExam
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
                 AllowUserToAddRows = false,
                 AllowUserToDeleteRows = false,
-                ReadOnly = true
+                ReadOnly = true,
+                AutoGenerateColumns = false
             };
+
+            dgvEnterprises.Columns.Add(new DataGridViewTextBoxColumn { Name = "enterprise_id", DataPropertyName = "enterprise_id", HeaderText = "Код", Visible = false });
+            dgvEnterprises.Columns.Add(new DataGridViewTextBoxColumn { Name = "name", DataPropertyName = "name", HeaderText = "Название" });
+            dgvEnterprises.Columns.Add(new DataGridViewTextBoxColumn { Name = "bank_details", DataPropertyName = "bank_details", HeaderText = "Реквизиты" });
+            dgvEnterprises.Columns.Add(new DataGridViewTextBoxColumn { Name = "phone", DataPropertyName = "phone", HeaderText = "Телефон" });
+            dgvEnterprises.Columns.Add(new DataGridViewTextBoxColumn { Name = "contact_person", DataPropertyName = "contact_person", HeaderText = "Контактное лицо" });
 
             btnAddEnt = new Button { Text = "Добавить", Location = new Point(770, 10), Size = new Size(180, 35) };
             btnAddEnt.Click += BtnAddEnt_Click;
@@ -131,9 +138,7 @@ namespace ProjectExam
         {
             try
             {
-                var dt = DbHelper.Query(@"SELECT enterprise_id AS 'Код', name AS 'Название', 
-                    bank_details AS 'Реквизиты', phone AS 'Телефон', contact_person AS 'Контактное лицо' 
-                    FROM enterprises ORDER BY name");
+                var dt = DbHelper.Query(@"SELECT enterprise_id, name, bank_details, phone, contact_person FROM enterprises ORDER BY name");
                 dgvEnterprises.DataSource = dt;
             }
             catch (Exception ex) { MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error); }

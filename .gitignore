@@ -1,45 +1,76 @@
-```
-# Compiled and binary files
+# Compiled and build artifacts
+*.obj
 *.exe
 *.dll
+*.pdb
+*.userprefs
+*.suo
+*.user
+*.aps
+*.ncb
+*.ilk
+*.idb
+*.iobj
+*.ipdb
+*.tlog
+*.exp
+*.lib
 *.so
-*.o
-*.obj
-*.out
+*.dylib
 *.class
-*.pyc
+*.jar
+*.war
+*.ear
+*.o
+*.a
+*.out
 
 # Dependencies
-node_modules/
-venv/
-.venv/
-__pycache__/
-dist/
+packages/
+bin/
+obj/
+Debug/
+Release/
+x64/
+x86/
 build/
-target/
-.gradle/
-.mypy_cache/
-.pytest_cache/
+dist/
+node_modules/
+vendor/
 
-# Editors/IDEs
+# Logs and temp files
+*.log
+*.tmp
+*.temp
+*.cache
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Editors
+.vs/
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# System files
+# OS generated files
 .DS_Store
 Thumbs.db
-.env
-.env.local
-*.env.*
+desktop.ini
+ehthumbs.db
 
-# Logs and temp files
-*.log
-*.tmp
+# User-specific files
+*.userprefs
+*.useroptions
+*.userosscache
+*.sln.docstates
 
-# Coverage
-coverage/
-htmlcov/
-.coverage
-```
+# Build results
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+[Ll]og/
+[Ll]ogs/

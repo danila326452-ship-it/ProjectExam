@@ -6,7 +6,7 @@ namespace ProjectExam
 {
     public static class DbHelper
     {
-        private static readonly string ConnStr = "server=localhost;port=3306;database=HoldingAnalytics;uid=root;pwd=root;";
+        private static readonly string ConnStr = "server=localhost;port=3306;database=holding_db;uid=root;pwd=root;";
 
         public static MySqlConnection GetConnection()
         {

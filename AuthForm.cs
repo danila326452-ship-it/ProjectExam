@@ -31,7 +31,8 @@ namespace ProjectExam
             {
                 captchaBtns[i].Text = values[i].ToString();
                 captchaBtns[i].Tag = values[i];
-                captchaBtns[i].BackColor = SystemColors.Control;
+                captchaBtns[i].BackColor = System.Drawing.Color.FromArgb(0, 102, 204);
+                captchaBtns[i].ForeColor = System.Drawing.Color.White;
             }
             btnEnter.Enabled = false;
             firstSelected = null;
@@ -43,7 +44,7 @@ namespace ProjectExam
             if (firstSelected == null)
             {
                 firstSelected = btn;
-                btn.BackColor = Color.Gold;
+                btn.BackColor = System.Drawing.Color.Gold;
             }
             else if (firstSelected != btn)
             {
@@ -53,11 +54,13 @@ namespace ProjectExam
 
                 firstSelected.Text = btn.Text;
                 firstSelected.Tag = btn.Tag;
-                firstSelected.BackColor = SystemColors.Control;
+                firstSelected.BackColor = System.Drawing.Color.FromArgb(0, 102, 204);
+                firstSelected.ForeColor = System.Drawing.Color.White;
 
                 btn.Text = tmpText;
                 btn.Tag = tmpTag;
-                btn.BackColor = SystemColors.Control;
+                btn.BackColor = System.Drawing.Color.FromArgb(0, 102, 204);
+                btn.ForeColor = System.Drawing.Color.White;
 
                 firstSelected = null;
                 CheckCaptcha();
@@ -74,7 +77,11 @@ namespace ProjectExam
             btnEnter.Enabled = solved;
             if (solved)
             {
-                foreach (var b in captchaBtns) b.BackColor = Color.LightGreen;
+                foreach (var b in captchaBtns)
+                {
+                    b.BackColor = System.Drawing.Color.LightGreen;
+                    b.ForeColor = System.Drawing.Color.White;
+                }
             }
         }
 
